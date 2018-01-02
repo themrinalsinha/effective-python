@@ -60,4 +60,8 @@ print(percentages)
 # This works because the sum method in normalize will call ReadVisits.__iter__ to allocate a new iterator objects. The for loop to normalize the numbers will also call __iter_ to allocate a second iterator ojects.
 # Each of those iterators will be advanced an dexhausted independently, ensuring that each unique iteration sees all of the input dta values. The only downside of this approach is that it reads the input data multiple times.
 
-
+# Notes:
+# -> Beware of functions that iterate over input arguments multiple times. If these arguments are iterators, you may see strange behavior and missing values.
+# -> Python iterator protocol defines how containers an iterators interact with the iter and next built-in functions, for loops, and related expressions.
+# -> You can easily define your own iterable container type by implementing the __iter__ method as a generator.
+# -> You can detect that a value is an iterator (instead of container) if calling iter on it twice produces the same result, which can then be progressed with the next built-in function.
