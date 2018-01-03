@@ -64,3 +64,7 @@ bar['meep'] = 1
 
 print('Foo', foo)
 print('Bar', bar)
+
+# Note:
+# -> Default arguments are only evaluated once: during function definition at module load time. This can cause odd behaviors for dynamic values like {} or []
+# -> Use None as the default value for keyword arguments that have a dynamic value. Document the actual behavior in the funcions docstring. 
