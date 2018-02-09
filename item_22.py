@@ -88,3 +88,31 @@ book.report_grade('tms', 'Math', 80, 0.10)
     # Using the class has also gotten more difficult. It's unclear what all of the numbers in the positional arguments mean.
     # When you see the complexity like this happen, it's time to make the leap from dictionaries and tuples to a hierarchy of classes.
 
+# # Refactoring of classes
+# You can start moving to classes at the bottom of the dependency tree: a single grade. A class seems too heavyweight for such simple information.
+# A tuple, though, seems appropriate because grades are immutable.
+grades = []
+grades.append((95, 0.45))
+# ..
+total         = sum(score * weight for score, weight in grades)
+total_weight  = sum(weight for _, weight in grades)
+average_grade = total / total_weight
+
+# The problem is that plain tuples are positional. When you want to associate more info with the grade, like a set of notes
+# from the teacher, you'll need to rewrite every usage of the two-tuple to be aware that there are now three items present instead of two.
+
+grades = []
+grades.append((95, 0.45, 'Great Job'))
+# ..
+total         = sum(score * weight for score, weight, _ in grades)
+total_weight  = sum(weight for _, weight, _ in grades)
+average_grade = total / total_weight
+
+# The pattern of extending tuple longer and longer is similar to deep-ending layers of dictionaries. As soon as you find yourself going longer than a two-tuple. It's time to consider aother data class.
+
+import collections
+grade = collections.namedtuple('Grade', ('score', 'weight'))
+# These classes can be constructed with positional or keyword arguments. The fields are accessible with named attributes.
+# Having named attributes makes it easy to move from a namedtuple to your own class later if your requirement change again and you need to add behaviors to simple data contianers.
+
+
