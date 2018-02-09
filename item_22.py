@@ -115,4 +115,10 @@ grade = collections.namedtuple('Grade', ('score', 'weight'))
 # These classes can be constructed with positional or keyword arguments. The fields are accessible with named attributes.
 # Having named attributes makes it easy to move from a namedtuple to your own class later if your requirement change again and you need to add behaviors to simple data contianers.
 
+# Limitations of namedtuple
+# although useful in many circumstances. It's important to under stand when namedtuple can cause more harm than good.
+# 
+# You can't specify default argument values for namedtuple classes. This makes them unwieldy when your data may have many optional properties. If you find yourself using more than a handful of attributes, defining your own class may be a better choice.
+# The attributes values of namedtuple instances are still accessible using numerical indexes and iteration. Especially in externalized APIs. this can lead to unintentional usage that makes it harder to move to a real class later. If you're not in control of all of usage of your nametuple instance, it's better to define your own class.
+
 
