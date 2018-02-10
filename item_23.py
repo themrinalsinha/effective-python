@@ -29,3 +29,25 @@ print('Before : ', dict(result))
 for key, amount in increments:
     result[key] += amount
 print('After : ', dict(result))
+
+# Supplying functions like log_missing makes APIs easy to build and test because it seperates side effects from deterministic behavior.
+# eg: say you now want the default value hook passed to defaultdict to count the total number of keys that were missing.
+# One way to achieve this is using astateful closure
+# Here I define a helper function that uses such a closure as the default value hook:
+
+def increment_with_report(current, increment):
+    added_count = 0
+
+    def missing():
+        nonlocal added_count #Stateful closure
+        added_count += 1
+        return 0
+
+    result = defaultdict(missing, current)
+    for key, amount in increments:
+        result[key] += amount
+    
+    return result, added_count
+
+# Running the function produces the expected result(2), even though the defaultdict has no idea that the missing hook maintains state.
+# This is another benefit of accepting simple functions for interfaces. It's easy to add functionality later by hiding state in a closure.
