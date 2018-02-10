@@ -67,24 +67,24 @@ print(book1.average_grade('Warlock'))
 # so midterms and finals are more important than pop quizzes. One way to implement this feature is to change the innermost dictionay
 # instead of mapping subjects to grades. we can use the tuple as value.
 
-class WeightGradebook(object):
-    #...
-    def report_grade(self, name, subject, score, weight):
-        by_subject = self.grades[name]
-        grade_list = by_subject.setdefault(subject, [])
-        grade_list.append(score, weight)
+# class WeightGradebook(object):
+#     #...
+#     def report_grade(self, name, subject, score, weight):
+#         by_subject = self.grades[name]
+#         grade_list = by_subject.setdefault(subject, [])
+#         grade_list.append(score, weight)
 
     # Although the changes to report_grade seem simple -- just make the value a tuple -- the average_grade method now has a loop within a loop and is difficult to read.
-    def average_grade(self, name):
-        by_subject = self.grades[name]
-        score_sum, score_count = 0, 0
-        for subject, scores in by_subject.items():
-            subject_avg, total_weight = 0, 0
-            for score, weight in scores:
-                # ..
-        return score_sum / score_count
+#     def average_grade(self, name):
+#         by_subject = self.grades[name]
+#         score_sum, score_count = 0, 0
+#         for subject, scores in by_subject.items():
+#             subject_avg, total_weight = 0, 0
+#             for score, weight in scores:
+#                 # ..
+#         return score_sum / score_count
 
-book.report_grade('tms', 'Math', 80, 0.10)
+# book.report_grade('tms', 'Math', 80, 0.10)
     # Using the class has also gotten more difficult. It's unclear what all of the numbers in the positional arguments mean.
     # When you see the complexity like this happen, it's time to make the leap from dictionaries and tuples to a hierarchy of classes.
 
@@ -121,4 +121,55 @@ grade = collections.namedtuple('Grade', ('score', 'weight'))
 # You can't specify default argument values for namedtuple classes. This makes them unwieldy when your data may have many optional properties. If you find yourself using more than a handful of attributes, defining your own class may be a better choice.
 # The attributes values of namedtuple instances are still accessible using numerical indexes and iteration. Especially in externalized APIs. this can lead to unintentional usage that makes it harder to move to a real class later. If you're not in control of all of usage of your nametuple instance, it's better to define your own class.
 
+# Now you can write a class to represent a single subjct tht contains a set of grades
 
+class Subject(object):
+    def __init__(self):
+        self.grade = []
+
+    def report_grade(self, score, weight):
+        self.grade.append(grade(score, weight))
+
+    def average_grade(self):
+        total, total_weight = 0, 0
+        for grade in self.grade:
+            total += grade.score * grade.weight
+            total_weight += grade.weight
+# Then you would write a class to represent a set of subjects that are being studied by a single student.
+class Student(object):
+    def __init__(self):
+        self.subjects = {}
+
+    def subject(self, name):
+        if name not in self.subjects:
+            self.subjects[name] = Subject()
+        return self.subjects[name]
+
+    def average_grade(self):
+        total, count = 0, 0
+        for subject in self.subjects.values():
+            total += subject.average_grade()
+            count += 1
+        return total / count
+# Finally you would write a container for all the students keyed dynamically by their names
+class Gradebook(object):
+    def __init__(self):
+        self.students = {}
+
+    def student(self, name):
+        if name not in self.students:
+            self.students[name] = Student()
+        return self.students[name]
+# The line count of these classes is almost double the previous implementations size. But this code is much
+# easier to read. The example driving the classes is also more clear and extensible
+book   = Gradebook()
+albert = book.student('Albert Einstein')
+math   = albert.subject('Math')
+math.report_grade(80, 0.10)
+
+print(albert.average_grade())
+
+# NOTE:
+# Avoide making dicionaries with values that are other dictionaries or long tuples.
+# Use namedtuple for lightweight, immutalbe data containers before you need the flexibility of a full class.
+# Mote your bookkeeping code to use multiple helper classes when your internal state dictionaries get complicated. 
