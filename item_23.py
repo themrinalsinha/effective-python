@@ -46,8 +46,27 @@ def increment_with_report(current, increment):
     result = defaultdict(missing, current)
     for key, amount in increments:
         result[key] += amount
-    
+
     return result, added_count
 
 # Running the function produces the expected result(2), even though the defaultdict has no idea that the missing hook maintains state.
 # This is another benefit of accepting simple functions for interfaces. It's easy to add functionality later by hiding state in a closure.
+result, count = increment_with_report(current, increments)
+assert count == 2
+
+# The problem with defining a closure for stateful hooks is that it's harder to read than the stateless function example.
+# Another apporach is to define a small class that encapsulates the state you want to track.
+class CountMissing(object):
+    def __init__(self):
+        self.added = 0
+    def missing(self):
+        self.added += 1
+        return 0
+# In python, thanks to first class functions, you can reference the CountMissing.missing method directly on an object and pass it to dfaultdict as the default value hook It's trivial to have a method satifsy a function interface.
+
+counter = CountMissing()
+result  = defaultdict(counter.missing, current)
+
+for key, amount in increments:
+    result[key] == amount
+assert counter.added == 2
