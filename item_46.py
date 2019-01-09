@@ -66,3 +66,27 @@ b['foo'] = 'red'
 b['bar'] = 'blue'
 for v1, v2 in zip(a.values(), b.values()):
     print(v1, v2)
+
+# Default Dictionaries:
+# Dictionaries are useful for bookkeeping and tracking statics. One problem with dictionaries is that
+# you can't assume any keys are already present. That makes it clumsy to do simple things like increment a
+# counter stored in a dictionary.
+
+stats = {}
+key = 'my_counter'
+if key not in stats:
+    stats[key] = 0
+stats[key] += 1
+
+# The defaultdict class from the collections module simplifies this by automatically storing a default value when
+# a key doesn't exist. All you have to do is provide a function that ill return the default value each time a key
+# is missing. In this example, the int built-in function returns 0. Now incrementing a counter is simple.
+
+from collections import defaultdict
+
+stats = defaultdict(int)
+stats['my_counter'] += 1
+stats['my_counter'] += 1
+stats['my_counter'] += 1
+print(stats)
+
