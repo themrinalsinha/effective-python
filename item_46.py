@@ -67,6 +67,8 @@ b['bar'] = 'blue'
 for v1, v2 in zip(a.values(), b.values()):
     print(v1, v2)
 
+# ================================================================================
+
 # Default Dictionaries:
 # Dictionaries are useful for bookkeeping and tracking statics. One problem with dictionaries is that
 # you can't assume any keys are already present. That makes it clumsy to do simple things like increment a
@@ -90,3 +92,40 @@ stats['my_counter'] += 1
 stats['my_counter'] += 1
 print(stats)
 
+# ================================================================================
+
+# Heap Queue
+# Heap is useful data structure for maintaining a priority queue.
+# The head module provides functions for creaating heaps in standard list types
+# with functions like heappush, heappop and nsmallest.
+
+# Items of any priority can be inserted into the heap in any order.
+from heapq import heappush, heappop, nsmallest
+a = []
+heappush(a, 5)
+heappush(a, 3)
+heappush(a, 7)
+heappush(a, 4)
+print(a)
+# Items are always removed by highest priority(lowest number) first.
+print(heappop(a))
+print(heappop(a))
+print(heappop(a))
+print(heappop(a))
+
+b = []
+heappush(b, 5)
+heappush(b, 3)
+heappush(b, 7)
+heappush(b, 4)
+print(b)
+print('first index of heap: ', b[0])
+
+assert b[0] == nsmallest(1, b)[0] == 3
+
+# calling the sort method on the list  maintains the heap invarient.
+print('Before: ', b)
+b = b.sort()
+print('After: ', b)
+# Each of these heapq operations takes logarithmic time in proportion to
+# the length of the list. Doing the same worlk with a standard Python list would scale linearly.
