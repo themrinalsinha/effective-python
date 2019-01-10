@@ -15,3 +15,7 @@ print('Hey %s, there is 0x%x error!' % (name, errno))
 
 print('Hey %(name)s, there is Ox%(errno)s error!' % {"name": name, "errno": errno})
 # This makes your format strings easier to maintain and easier to modify in the future.
+
+# New Style string formatting
+print('Hello, {}'.format(name))
+print('Hey {name}, there is a 0x{errno:x} error!'.format(name=name, errno=errno))
