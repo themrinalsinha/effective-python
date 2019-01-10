@@ -19,3 +19,9 @@ print('Hey %(name)s, there is Ox%(errno)s error!' % {"name": name, "errno": errn
 # New Style string formatting
 print('Hello, {}'.format(name))
 print('Hey {name}, there is a 0x{errno:x} error!'.format(name=name, errno=errno))
+
+# Literal String Interpolation (Python 3.6+)
+print(f'Hello, {name}!')
+a = 8; b = 9
+print(f'Five plus ten is {a + b} and not {2 * (a + b)}')
+print(f'Hey {name}, there is a {errno:#x} error!')
