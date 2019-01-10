@@ -25,3 +25,12 @@ print(f'Hello, {name}!')
 a = 8; b = 9
 print(f'Five plus ten is {a + b} and not {2 * (a + b)}')
 print(f'Hey {name}, there is a {errno:#x} error!')
+
+# Template strings
+print('------------ Template String --------------')
+from string import Template
+
+t = Template('Hey, $name!')
+print(t.substitute(name=name))
+# temp_string = 'Hey $name, there is a $errno error!'
+# Template(temp_string).substitute(name=name, error=hex(errno))
