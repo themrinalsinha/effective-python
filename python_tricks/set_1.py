@@ -35,3 +35,24 @@ class ManagedFile(object):
 with ManagedFile('hello.txt') as f:
     f.write('Hello, world\n')
     f.write('How are you...?\n')
+
+# Writing a class-based context manager isn't the only way to support the with
+# statement in python. The contextlib utility module in the standard library provodes
+# a few more abstractions built on top of the basic context manager protocol.
+
+# Eg: You can use the contextlib.contextmanager decorator to define a generator-based
+# format functions for a  resource that will then automatically support with the with statement.
+
+from contextlib import contextmanager
+
+@contextmanager
+def manage_file(name):
+    try:
+        f = open(name, 'w')
+        yield f
+    finally:
+        f.close()
+
+with manage_file('hello.txt') as f:
+    f.write('hello world...!\n')
+    f.write('Bye for now..!! L:()')
