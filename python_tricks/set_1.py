@@ -56,3 +56,30 @@ def manage_file(name):
 with manage_file('hello.txt') as f:
     f.write('hello world...!\n')
     f.write('Bye for now..!! L:()')
+
+# ================================================
+print('-------------------------------------------')
+class Indenter:
+    def __init__(self):
+        self.level = 0
+
+    def __enter__(self):
+        self.level += 1
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.level -= 1
+
+    def print(self, text):
+        print('    ' * self.level + text)
+
+with Indenter() as indent:
+    indent.print('Hi...!')
+    with indent:
+        indent.print('Hello!')
+        with indent:
+            indent.print('Bonjour')
+    indent.print('Hey')
+# ================================================
+# Keynote:
+# _> The with statement simplifies exception handling by encapsulating standard uses of try/finally satemt is so-called context manager.
