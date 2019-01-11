@@ -32,3 +32,15 @@ def make_adder(n):
 plus_3 = make_adder(5)
 print(plus_3(3))
 # Here make_adder serves as a factory to craete and configure "adder" functions.
+
+
+# objects can behave like functions.
+class Adder(object):
+    def __init__(self, n):
+        self.n = n
+
+    def __call__(self, x):
+        return self.n + x
+
+plus_3 = Adder(3)
+print(plus_3(4))
