@@ -146,3 +146,7 @@ print("Liner time: ", time() - start_time)
 start_time = time()
 print(bisect_left(x, 991234))
 print("Bisect time: ", time() - start_time)
+
+# ================================================================================
+# Iterator Tools
+# The itertools built-in module contains a large number of functions that are useful for organizing and interacting with iterators ()
