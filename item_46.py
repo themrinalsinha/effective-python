@@ -129,3 +129,20 @@ b = b.sort()
 print('After: ', b)
 # Each of these heapq operations takes logarithmic time in proportion to
 # the length of the list. Doing the same worlk with a standard Python list would scale linearly.
+
+# ================================================================================
+# Bisection
+# Searching for an item in a list takes linear time proportioanl to its length wheen you call the index method.
+from time   import time
+from bisect import bisect_left
+
+x = list(range(10 ** 8))
+start_time = time()
+print(x.index(991234))
+print("Liner time: ", time() - start_time)
+
+# The bisect module's function, such as bisect_left, provide an efficient binary search through a sequence of sorted items.
+# The index it  returns is the insertion point of the value into the sequence.
+start_time = time()
+print(bisect_left(x, 991234))
+print("Bisect time: ", time() - start_time)
