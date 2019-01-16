@@ -32,3 +32,22 @@ def make_adder(n):
 plus_3 = make_adder(4)
 print(plus_3)
 print(plus_3(3), end=temp)
+
+# Harmful!
+class Car:
+    revsh = lambda self: print('Wroom!')
+    crash = lambda self: print('Boom!')
+my_car = Car()
+my_car.revsh()
+my_car.crash()
+print(end=temp)
+
+# similar feeling about map and filter constructs using lambdas. Usually it's much cleaner
+# to go with a list comprehension or generator expression.
+# Harmful
+print(list(filter(lambda x: x % 2 == 0, range(16))))
+print([x for x in range(16) if x % 2 == 0], end=temp)
+
+# Takeaways!
+# -> lambda functions are single expression functions that are not necessarily bound to a name (anonymous).
+# -> Lambda functions can't use regular python satements and alwayys include an implicit return statement.
