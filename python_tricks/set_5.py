@@ -31,3 +31,22 @@ def greet():
 
 print(greet())
 # --------------------------------------------------------------
+# Applying multiple decorator to a function.
+def strong(func):
+    def wrapper():
+        return '<strong>' + func() + '</strong>'
+    return wrapper
+
+def emphasis(func):
+    def wrapper():
+        return '<em>' + func() + '</em>'
+    return wrapper
+
+@uppercase
+@strong
+@emphasis
+def greet():
+    return 'Hello there...'
+
+print(greet())
+# Note: decorators are applied from bottom to top
