@@ -50,3 +50,19 @@ def greet():
 
 print(greet())
 # Note: decorators are applied from bottom to top
+# --------------------------------------------------------------
+
+# Decorating function that takes arguments.
+def proxy(func):
+    def wrapper(*args, **kwargs):
+        print(f'TRACE: calling {func.__name__}() with {args} and {kwargs}')
+        original_result = func(*args, **kwargs)
+        return func(*args, **kwargs)
+        print(f'Returned original {func.__name__}()')
+    return wrapper
+
+@proxy
+def say(name, line):
+    return f'{name} : {line}'
+
+print(say('Mrinal', 'Welcome onboard!'))
