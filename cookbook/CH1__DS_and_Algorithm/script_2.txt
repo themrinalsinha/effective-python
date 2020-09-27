@@ -1,0 +1,3 @@
+When writing code to search for items, it is common to use a generator function in‐
+volving yield , as shown in this recipe’s solution. This decouples the process of searching
+from the code that uses the results. If you’re new to generators
