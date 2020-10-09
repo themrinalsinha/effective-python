@@ -10,6 +10,9 @@ of attributes on a per-attribute basis. To do this, you should use descriptors.
 """
 
 # Base class. Uses a descriptor to set a value
+from os import name
+
+
 class Descriptor:
     def __init__(self, name=None, **opts) -> None:
         self.name = name
@@ -115,3 +118,35 @@ class Stock:
         self.name = name
         self.shares = shares
         self.price = price
+
+# another approach to simplify the specification of constraints is to use a metclass.
+# Example:
+# A metaclass that applies checking
+class checkedmeta(type):
+    def __new__(cls, clsname, bases, methods):
+        # attach attribute names to the descriptors
+        print(f"CLS: {cls}")
+        print(f"classname: {clsname}")
+        print(f"bases: {bases}")
+        print(f"methods: {methods}")
+
+        for key, value in methods.items():
+            if isinstance(value, Descriptor):
+                value.name = key
+        return type.__new__(cls, clsname, bases, methods)
+
+# example
+class Stock(metaclass=checkedmeta):
+    name = SizedString(size=8)
+    shares = UnsignedInteger()
+    price = UnsignedFloat()
+
+    def __init__(self, name, shares, price) -> None:
+        self.name = name
+        self.shares = shares
+        self.price = price
+
+"""
+This recipe involves a number of advanced techniques, including descriptors, mixin classes,
+the use of super(), class decorators, and metaclasses.
+"""
