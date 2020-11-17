@@ -32,3 +32,50 @@ def add(x, y):
 @logged(level=logging.CRITICAL, name="example")
 def spam():
     print("Spam!")
+print(f"{'-'*50}")
+print()
+# =======================================================================================
+
+"""
+9.7. Enforcing Type Checking on a function using a decorator
+
+Problem: You want to optionally enforce type checking of function arguments as a kind
+         of assertion or contract.
+"""
+
+from inspect import signature
+from functools import wraps
+
+def typeassert(*ty_args, **ty_kwargs):
+    def decorate(func):
+        # if in optimized mode, disable type checking.
+        if not __debug__:
+            return func
+
+        # map function argument names to supplied types
+        sig = signature(func)
+        bound_types = sig.bind_partial(*ty_args, **ty_kwargs).arguments
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            bound_values = sig.bind(*args, **kwargs)
+            # enforce type assertion across supplied arguments
+            for name, value in bound_values.arguments.items():
+                if name in bound_types:
+                    if not isinstance(value, bound_types[name]):
+                        raise TypeError(f"Argument {name} must be {bound_types[name]}")
+
+            return func(*args, **kwargs)
+        return wrapper
+    return decorate
+
+# You'll find that this decorator is rather flexible, allowing types to be specified for
+# all or a subset of a function's arguments. Moreover, types can be specified by position
+# or by keyword.
+@typeassert(int, z=int)
+def spam(x, y, z=42):
+    print(x, y, z)
+
+spam(1, 2, 3)
+spam(1, "Hello", 3)
+# spam(1, "h", "w") # will throw error
