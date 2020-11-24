@@ -48,3 +48,34 @@ s = Spam()
 s.instance_method(1000000)
 Spam.class_method(1000000)
 Spam.static_method(1000000)
+print('-' * 50)
+# ===================================================================================
+
+"""
+9.11. Writing decorators that add arguments to wrapped functions
+
+Problem: you want to write a decorator that adds an extra argument to the calling signature
+         of the wrapped function. However, the added argument can't interfere with the existing
+         calling conventions of the function.
+
+Solution: Extra arguments can be injected into the calling signature using keyword-only
+          arguments.
+"""
+from functools import wraps
+
+def optional_debug(func):
+    @wraps(func)
+    def wrapper(*args, debug=False, **kwargs):
+        if debug:
+            print(f"Calling: {func.__name__}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@optional_debug
+def spam(a, b, c):
+    print(a, b, c)
+
+spam(1, 2, 3)
+spam(1, 2, 3, debug=True)
+print('-' * 50)
+# ===================================================================================
