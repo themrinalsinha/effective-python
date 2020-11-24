@@ -79,3 +79,35 @@ spam(1, 2, 3)
 spam(1, 2, 3, debug=True)
 print('-' * 50)
 # ===================================================================================
+
+"""
+9.12. Using decorators to patch class definitions
+
+Problem: You want to inspect or rewrite portions of a class definition to alter its
+         behavior, but without using inheritance or metaclasses.
+
+Solution: This might be a perfect use or a class decorator. Eg, here is a class decorator
+          that rewrites the __getattributes__ special method to perform logging.
+"""
+
+def log_getattribute(cls):
+    # Get the original implementation
+    orig_getattributes = cls.__getattributes__
+
+    # make a new definition
+    def new_getattribute(self, name):
+        print("getting: ", name)
+        return orig_getattributes(self, name)
+
+    # attach to the class and return
+    cls.__getattributes__ == new_getattribute
+    return cls
+
+# Example use
+@log_getattribute
+class A:
+    def __init__(self, x) -> None:
+        self.x = x
+
+    def spam(self):
+        pass
