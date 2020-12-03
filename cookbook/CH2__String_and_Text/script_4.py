@@ -96,3 +96,43 @@ print(f"CENTER(=^20) : {text:=^20}")
 x = 1.2345
 print(f"DECIMAL: {x:->10}")
 print(f"DECIMAL: {x:-^10.2f}")
+print('- ' * 50)
+# ==================================================================================
+"""
+2.15. Interpolating variables in Strings
+
+Problem: You want to create a string in which embedded variable names are substituted with
+         a string represention of a variable's value.
+
+Solution: Python has no direct support for simply substituting variable values in strings.
+          However, this feature can be approximated using the format() method of strings.
+"""
+s = '{name} has {n} messages'
+print(s.format(name="Mrinal", n=40))
+
+# alternatively, if the values to be substituted are truly found in variables, you can
+# use the combination of format_map() and vars(), as in the following
+name = "Sinha"
+n = 28
+print(s.format_map(vars()))
+
+# One subtle feature of vars() is that it also works with instances, Eg:
+class Info:
+    def __init__(self, name, n) -> None:
+        self.name = name
+        self.n = n
+
+a = Info("Mrinal", 40)
+print(s.format_map(vars(a)))
+
+# One downside of format() and format_map() is that they do not deal gracefully with
+# missing values. eg:
+
+# One way to avoid this is to define an alternative dictionary class with a __missing__()
+# method, as in the following:
+class safesub(dict):
+    def __missing__(self, key):
+        return '{' + key + '}'
+
+del n # make sure n is undefined
+print(s.format_map(safesub(vars())))
