@@ -60,3 +60,39 @@ b = unicodedata.normalize("NFD", a)
 print(b.encode("ascii", "ignore").decode("ascii"))
 print("- " * 50)
 # ===================================================================================
+
+"""
+2.13. Aligning Text Strings
+
+Problem: You need to format text with some sort of alignment applied.
+
+Solution: For basic alignment of strings, the ljust(), rjust(), center() methods
+          of strings can be used.
+"""
+# simple justification
+text = "hello world"
+print("LJUST  : ", text.ljust(20))
+print("RJUST  : ", text.rjust(20))
+print("CENTER : ", text.center(20))
+
+# justification with padding
+text = "hello world"
+print("LJUST  : ", text.ljust(20, '-'))
+print("RJUST  : ", text.rjust(20, '-'))
+print("CENTER : ", text.center(20, '-'))
+
+# The format() function can also be used to easily align things. All you need to do is
+# use the <, > or ^ characters along with a desired width. For example:
+text = " Mrinal "
+print(f"RJUST(>20)  : {text:>20}")
+print(f"LJUST(<20)  : {text:<20}")
+print(f"CENTER(^20) : {text:^20}")
+
+# print with padding of "="
+print(f"RJUST(=>20)  : {text:=>20}")
+print(f"LJUST(=<20)  : {text:=<20}")
+print(f"CENTER(=^20) : {text:=^20}")
+
+x = 1.2345
+print(f"DECIMAL: {x:->10}")
+print(f"DECIMAL: {x:-^10.2f}")
