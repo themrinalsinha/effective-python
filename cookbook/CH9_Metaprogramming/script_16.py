@@ -69,3 +69,46 @@ class Person:
     def __init__(self, name, age) -> None:
         self.name = name
         self.age = age
+print('-' * 50)
+# ===================================================================================
+
+"""
+9.22. Defining context managers the easy way.
+
+Problem: You want to implement new kinds of context managers for use with the 'with' statement
+
+Solution: Once of the most straightforward ways to write a new context manager is to use
+          the @contextmanager decorator in the contextlib module. Here is an example of
+          a context manager that times the execution of a code block.
+"""
+import time
+from contextlib import contextmanager
+
+@contextmanager
+def timethis(label):
+    start = time.time()
+    try:
+        yield
+    finally:
+        end = time.time()
+        print(f"{label}: {end-start}")
+
+with timethis("counting"):
+    n = 1000000
+    while n > 0:
+        n -= 1
+
+# in this timethis() function, all of the code prior to the yield executes as the __enter__()
+# method of a context manager. All of the code after the yield executes as the __exit__()
+# method. If there was an exception. it is raised at the yield statement.
+
+@contextmanager
+def list_transaction(orig_list):
+    working = list(orig_list)
+    yield working
+    orig_list[:] = working
+
+items = [1, 2, 3]
+with list_transaction(items) as working:
+    working.append(4)
+    working.append(5)
