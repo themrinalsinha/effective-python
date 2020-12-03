@@ -52,3 +52,67 @@ def test3():
 
 test3()
 # ---------------------------
+print('-' * 50)
+# ==================================================================================
+
+"""
+9.24. Parsing and Analyzing Python Source
+
+Problem: You want to write programs that parse and analyze python source code.
+
+Solution: Most programmers know that python can evaluate or execute source code provided
+          in the form of a string.
+"""
+x = 42
+eval('2+3*4+x')
+exec('for i in range(10): print(i)')
+
+"""
+IMPORTANT: However, the ast module can be used to compile python source code into an
+           abstract syntax tree (AST) that can be analyzed.
+"""
+import ast
+ex = ast.parse('2+3*4+x', mode="eval")
+print(ex)
+print(ast.dump(ex))
+
+# Analyzing the source tree requires a bit of study on your part, but it consists of a col‐
+# lection of AST nodes. The easiest way to work with these nodes is to define a visitor
+# class that implements various visit_NodeName() methods where NodeName() matches
+# the node of interest. Here is an example of such a class that records information about
+# which names are loaded, stored, and deleted.
+
+class CodeAnalyzer(ast.NodeVisitor):
+    def __init__(self) -> None:
+        self.loaded = set()
+        self.stored = set()
+        self.deleted = set()
+
+    def visit_Name(self, node):
+        if isinstance(node.ctx, ast.Load):
+            self.loaded.add(node.id)
+        elif isinstance(node.ctx, ast.Store):
+            self.stored.add(node.id)
+        elif isinstance(node.ctx, ast.Del):
+            self.deleted.add(node.id)
+
+# sample usage
+if __name__ == "__main__":
+    code = """
+for i in range(10):
+    print(i)
+del i
+    """
+
+    # parse into an AST
+    top = ast.parse(code, mode="exec")
+
+    # feed the AST to analyze name usage
+    c = CodeAnalyzer()
+    c.visit(top)
+    print("Loaded: ", c.loaded)
+    print("Stored: ", c.stored)
+    print("Deleted: ", c.deleted)
+
+# finally, ASTs can be compiled and executed using the compile() function.
+exec(compile(top, '<stdin>', 'exec'))
