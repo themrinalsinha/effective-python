@@ -23,3 +23,36 @@ print(textwrap.fill(s, 40, subsequent_indent="    "))
 import os
 cols = os.get_terminal_size().columns
 print(cols)
+print('- ' * 50)
+# ===================================================================================
+
+"""
+2.17. Handling HTML and XML entities in Text
+
+Problem: You want to replace HTML or XML entities such as &entity; or &#code; with
+         their corresponding text. Alternatively, you need to produce text, but escape
+         certain characters (<, >, or &)
+"""
+import html
+s = 'Elements are written as "<tag>text</tag>".'
+print(s)
+print(html.escape(s))
+
+# disable escaping of quotes
+print(html.escape(s, quote=False))
+
+# if you're trying to emit text as ASCII and want to embed character code entities for
+# non-ASCII characters, you can use the errors='xmlcharrefreplace' argument to various
+# I/O-related functions to do it.
+s = 'Spicy Jalapeño'
+print(s.encode('ascii', errors='xmlcharrefreplace'))
+
+# To replace entities in text, a different approach is needed. If you're actually processing HTML or XML, try using proper HTML or XML parser first.
+from html.parser import HTMLParser
+s = 'Spicy &quot;Jalape&#241;o&quot.'
+p = HTMLParser()
+print(p.unescape(s))
+
+from xml.sax.saxutils import unescape
+t = 'The prompt is &gt;&gt;&gt;'
+print(unescape(t))
