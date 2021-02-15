@@ -78,3 +78,20 @@ print(f"CENTER : {x:^10.1f}")
 print(f"e    ---> {x:e}")
 print(f"0.2E ---> {x:0.2E}")
 print(f"Inclusion of thousand separator: {x:0,.1f}")
+print()
+# --------------------------------------------------------------------------------
+
+"""
+3.4 Working with Binary, Octal and Hexadecimal Integers
+
+Problem: You need to convert or output integers represented by binary, octal or hexadecimal digits.
+"""
+
+x = 1234
+print("Binary : ", bin(x))
+print("Octal  : ", oct(x))
+print("Hex    : ", hex(x))
+
+print(f"{x:b}")
+print(f"{x:o}")
+print(f"{x:x}")
