@@ -28,3 +28,30 @@ print(c)
 print(f"{round(c, 2)}")
 # -------------------------------------------------------------------------------
 
+"""
+3.2. Performing accurate decimal calculations
+
+Problem: You need to perform accurate calculations with decimal numbers, and don't
+         want the small errors that naturally occur with floats.
+
+Solution: A well-known issue with floating-point numbers is that they can't accurately
+          represent all base-10 decimals. Moreover, even simple mathematical calculations
+          introduce small error.
+"""
+a = 4.2
+b = 2.1
+c = a + b
+print(c)
+print((a + b) == 6.3)
+
+# These errors are a "feature" of the underlying CPU and IEEE 754 arithmetic performed
+# by its floating-point units.
+
+from decimal import Decimal
+a = Decimal('4.2')
+b = Decimal('2.1')
+c = a + b
+print(c)
+print((a + b) == Decimal('6.3'))
+# --------------------------------------------------------------------------------
+
