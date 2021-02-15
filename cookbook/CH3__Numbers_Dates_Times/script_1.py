@@ -53,5 +53,28 @@ b = Decimal('2.1')
 c = a + b
 print(c)
 print((a + b) == Decimal('6.3'))
+print()
 # --------------------------------------------------------------------------------
 
+"""
+3.3. Formatting Numbers for Output
+
+Problem: You need to format a number for output, controlling the number of digits,
+         alignment, inclusion of a thousands separator, and other details
+
+Solution: To format a single number for output, use the built-in format() function.
+"""
+x = 1234.56789
+
+# Two decimal places of accuracy
+print(f"{x:0.2f}")
+
+# Right justified in 10 chars, one-digit accuracy
+print(f"RIGHT  : {x:>10.1f}")
+print(f"LEFT   : {x:<10.1f}")
+print(f"CENTER : {x:^10.1f}")
+
+# Inclusion of thousand separator
+print(f"e    ---> {x:e}")
+print(f"0.2E ---> {x:0.2E}")
+print(f"Inclusion of thousand separator: {x:0,.1f}")
