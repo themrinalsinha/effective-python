@@ -89,3 +89,52 @@ for n in frange(0, 4, 0.5):
     print(n)
 
 print(list(frange(0, 1, 0.125)))
+print("- " * 50)
+# ======================================================================================
+
+"""
+4.4. Implementing the Iterator Protocol
+
+Problem: You are building custom objects on which you would like to support iteration, but
+         would like an easy way to implement the iterator protocol.
+
+Solution: By far, the easiest way to implement iterator on an object is to use a generator
+          function.
+"""
+class Node:
+    def __init__(self, value) -> None:
+        self._value    = value
+        self._children = []
+
+    def __repr__(self) -> str:
+        return f"Node({self._value})"
+
+    def add_child(self, node):
+        self._children.append(node)
+
+    def __iter__(self):
+        return iter(self._children)
+
+    def depth_first(self):
+        yield self
+        for c in self:
+            yield from c.depth_first()
+
+root = Node(0)
+child_1 = Node(1)
+child_2 = Node(2)
+child_3 = Node(3)
+child_4 = Node(4)
+
+root.add_child(child_1)
+root.add_child(child_2)
+root.add_child(child_3)
+root.add_child(child_4)
+
+for ch in root.depth_first():
+    print("--> ", ch)
+
+# In this code, the depth_first() method is simple to read and describe. It first yields
+# itself and then iterates over each child yielding the items produced by the child’s
+# depth_first() method (using yield from ).
+
