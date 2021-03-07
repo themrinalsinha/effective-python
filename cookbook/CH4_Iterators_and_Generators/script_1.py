@@ -65,3 +65,27 @@ root.add_child(child_5)
 
 for _node in root:
     print(_node)
+print("- " * 50)
+# =====================================================================================
+
+"""
+4.3. Creating New Iteration Pattern with Generators
+
+Problem: You want to implement a custom iteration pattern that's different than the usual
+         built-in functions (eg: range(), reversed() etc.)
+
+Solution: If you want to implement a new kind of iteration pattern, define it using a generator
+          function. Here's a generator that produces a range of floating-point numbers.
+"""
+def frange(start, stop, increment):
+    x = start
+    while x < stop:
+        yield x
+        x += increment
+
+# To use such a function, you iterate over it using a for loop or use it with some other
+# function that consumes an iterable (eg: sum(), list() etc)
+for n in frange(0, 4, 0.5):
+    print(n)
+
+print(list(frange(0, 1, 0.125)))
