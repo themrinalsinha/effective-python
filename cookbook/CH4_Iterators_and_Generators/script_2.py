@@ -74,3 +74,26 @@ from itertools import combinations_with_replacement
 
 for p in combinations_with_replacement(items, 3):
     print(p)
+print()
+# =====================================================================================
+
+"""
+4.10. Iterating over the Index-Value pairs of a sequence
+
+Problem: You want to iterate over a sequence, but would like to keep track of which element
+         of the sequence is currently being processed.
+
+Solution: the built-in enumerate() function handles this quite nicely
+"""
+my_list = ['a', 'b', 'c', 'd']
+for idx, val in enumerate(my_list):
+    print(idx, val)
+print()
+
+my_list = ['a', 'b', 'c', 'd']
+for idx, val in enumerate(my_list, 1):
+    print(idx, val)
+print()
+# ======================================================================================
+
+
