@@ -97,3 +97,26 @@ print()
 # ======================================================================================
 
 
+"""
+4.11. Iterating Over Multiple Sequences Simultaneously
+
+Problem: You want to iterate over the items contained in more than one sequence at a time.
+"""
+
+xpts = [1, 2, 3, 4, 5]
+ypts = [5, 6, 7, 8, 9]
+for x, y in zip(xpts, ypts):
+    print(x, y)
+print()
+
+
+from itertools import zip_longest
+
+xpts = [1, 2, 3, 4, 5]
+ypts = [5, 6]
+
+for i in zip_longest(xpts, ypts):
+    print(i)
+print()
+for i in zip_longest(ypts, xpts):
+    print(i)
