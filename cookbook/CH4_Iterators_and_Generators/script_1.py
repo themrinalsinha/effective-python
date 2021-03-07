@@ -137,4 +137,30 @@ for ch in root.depth_first():
 # In this code, the depth_first() method is simple to read and describe. It first yields
 # itself and then iterates over each child yielding the items produced by the child’s
 # depth_first() method (using yield from ).
+print('- ' * 50)
+# =====================================================================================
 
+"""
+4.6 Defining Generator Functions with Extra State
+
+Problem: You would like to define a generator function, but it involves extra state that
+         you would like to expose to the user somehow.
+
+Solution: If you want to generator to expose extra state to the user, don't forget that you
+          can easily implement it as a class, putting the generator function code in the
+          __iter__() method.
+"""
+from collections import deque
+
+class linehistory:
+    def __init__(self, lines, histlen=3) -> None:
+        self.lines = lines
+        self.history = deque(maxlen=histlen)
+
+    def __iter__(self):
+        for lineno, line in enumerate(self.lines, 1):
+            self.history.append((lineno, line))
+            yield line
+
+    def clear(self):
+        self.history.clear()
