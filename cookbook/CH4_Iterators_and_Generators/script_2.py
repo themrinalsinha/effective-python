@@ -16,7 +16,7 @@ with open('/etc/passwd') as f:
 
 
 # --------------------------------------------------------------
-from itertools import dropwhile
+from itertools import dropwhile, permutations
 
 with open("/etc/passwd") as f:
     for line in dropwhile(lambda line: line.startswith('#'), f):
@@ -33,3 +33,44 @@ for x in islice(items, 3, None):
 print()
 
 # --------------------------------------------------------------
+print()
+# ======================================================================================
+
+
+"""
+4.9 Iterating over all possible combinations or permutations
+
+Problem: You want to iterate over all the possible combinations or permutations of a
+         collection of items
+"""
+from itertools import permutations, combinations
+
+items = ['a', 'b', 'c']
+
+for p in permutations(items):
+    print(p)
+
+for p in permutations(items, 2):
+    print(p)
+
+for p in permutations(items, 1):
+    print(p)
+
+
+print()
+for p in combinations(items, 3):
+    print(p)
+
+for p in combinations(items, 2):
+    print(p)
+
+for p in combinations(items, 1):
+    print(p)
+
+print()
+# For combinations(), the actual order of the elements is not considered. That is, the
+# combination('a', 'b') is considered to be the same as ('b', 'a').
+from itertools import combinations_with_replacement
+
+for p in combinations_with_replacement(items, 3):
+    print(p)
