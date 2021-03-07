@@ -26,3 +26,42 @@ with open('/etc/passwd') as f:
 print('- ' * 50)
 # ====================================================================================
 
+"""
+4.2 Delegating Iteration
+
+Problem: You have built a custom container object that internally holds a list, tuple or
+         some other iterable. You would like to make iteration work with your new container
+
+Solution: Typically, all you need to do is define an __iter__() method that delegates iteration
+          to the internally held container.
+"""
+
+class Node:
+    def __init__(self, value) -> None:
+        self._value = value
+        self._children = []
+
+    def __repr__(self) -> str:
+        return f'Node({self._value})'
+
+    def add_child(self, node):
+        self._children.append(node)
+
+    def __iter__(self):
+        return iter(self._children)
+
+root    = Node(0)
+child_1 = Node(1)
+child_2 = Node(2)
+child_3 = Node(3)
+child_4 = Node(4)
+child_5 = Node(5)
+
+root.add_child(child_1)
+root.add_child(child_2)
+root.add_child(child_3)
+root.add_child(child_4)
+root.add_child(child_5)
+
+for _node in root:
+    print(_node)
