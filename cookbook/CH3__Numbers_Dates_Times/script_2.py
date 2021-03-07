@@ -47,3 +47,38 @@ print(math.isinf(b))
 print(math.isinf(c))
 print(math.isnan(c))
 print('- ' * 50)
+# =======================================================================================
+
+"""
+3.8. Calculating with Fractions
+
+Problem: You have entered a time machine and suddenly find yourself working on elementary-
+         level homework problems involving fractions. Or perhaps you’re writing code to make
+         calculations involving measurements made in your wood shop.
+"""
+from fractions import Fraction
+
+a = Fraction(5, 4)
+b = Fraction(7, 16)
+print(a, b, a+b)
+print(a, b, a*b)
+
+c = a - b
+print(c)
+print(c.numerator)
+print(c.denominator)
+
+# converting to a float
+print(float(c))
+
+# limiting the denominator of a value
+print(c.limit_denominator(8))
+
+# converting a float to a fraction
+x = 3.75
+y = Fraction(*x.as_integer_ratio())
+print(f"{x} as integer ratio -> {y}")
+print("- " * 50)
+# =======================================================================================
+
+
