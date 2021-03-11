@@ -50,3 +50,51 @@ print(buf[0:5])
 
 with open('somefile.data', 'wb') as f:
     f.write(buf)
+print('- ' * 50)
+# ----------------------------------------------------------------------------------------
+
+
+"""
+5.10. Memory Mapping Binary Files
+
+Problem: You want to memory map a binary file into a mutable byte array, possibly for
+         random access to its contents or to make in-place modifications
+
+Solution: Use the mmap module to memory map files. Here is a utility function that shows
+          how to open a file and memory map it in a portable manner.
+"""
+import os
+import mmap
+
+def memory_map(filename, access=mmap.ACCESS_WRITE):
+    size = os.path.getsize(filename)
+    fd = os.open(filename, os.O_RDWR)
+    return mmap.mmap(fd, size, access=access)
+
+# TO use this function, you would need to have a file already created and filled with data.
+# Here is an example of how you could initially create a file and expand it to a desired size.
+
+size = 1000000
+with open('data', 'wb') as f:
+    f.seek(size-1)
+    f.write(b'\x00')
+
+# example of memory mapping the content using the memory_map() function
+m = memory_map('data')
+print(len(m))
+print(m[0:10])
+print(m[0])
+
+# reassign a slice
+m[0:11] = b'Hello World'
+m.close()
+
+# verify that changes were made
+with open("data", 'rb') as f:
+    print(f.read(11))
+
+# The mmap object returned by mmap() can also be used as a context manager, in which
+# case the underlying file is closed automatically.
+with memory_map('data') as m:
+    print(len(m))
+    print(m[0:10])
