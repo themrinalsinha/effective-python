@@ -27,3 +27,18 @@ print(tostring(e))
 print('- ' * 50)
 # ======================================================================================
 
+"""
+6.10. Decoding and Encoding Base64
+
+Problem: You need to decode or encode binary data using Base64 encoding
+"""
+import base64
+
+s = b'Hello there...'
+a = base64.b64encode(s)
+print(a)
+
+r = base64.b64decode(a)
+print(r)
+print('- ' * 50)
+# ====================================================================================
