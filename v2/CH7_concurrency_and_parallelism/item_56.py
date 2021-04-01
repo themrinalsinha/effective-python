@@ -89,3 +89,49 @@ def game_logic(state, neighbors):
         if neighbors == 3:
             return ALIVE # Regenerate
     return state
+
+# I can connect count_neighbors and game_logic together in another function that transitions
+# the state of a cell. This function will be called each generation to figure out a cell's
+# current state, inspect the neighboring cells around it, determine what its next state should
+# be, and update the resulting grid accordingly. Again, I use a function interface for set
+# instead of passing in the Grid instance to make this code more decoupled:
+
+def step_cell(y, x, get, set):
+    state = get(y, x)
+    neighbors = count_neighbors(y, x, get)
+    next_state = game_logic(state, neighbors)
+    set(y, x, next_state)
+
+# finally, i can define a function that progresses the whole grid of cells forward by a
+# single step and then returns a new grid containing the state fo the next generation.
+
+def simulate(grid):
+    next_grid = Grid(grid.height, grid.width)
+
+    for y in range(grid.height):
+        for x in range(grid.width):
+            step_cell(y, x, grid.get, next_grid.set)
+    return next_grid
+
+# Now, I can progress the grid forward one generation at a time. You can see how the grid
+# moves down and to the right on the grid based on the rules fromthe game_logic func
+class ColumnPrinter:
+    pass
+
+columns = ColumnPrinter()
+for i in range(5):
+    columns.append(str(grid))
+    grid = simulate(grid)
+
+print(columns)
+
+
+"""
+Things to Remember
+✦ A program often grows to require multiple concurrent lines of exe-
+  cution as its scope and complexity increases.
+✦ The most common types of concurrency coordination are fan-out
+  (generating new units of concurrency) and fan-in (waiting for exist-
+  ing units of concurrency to complete).
+✦ Python has many different ways of achieving fan-out and fan-in.
+"""
