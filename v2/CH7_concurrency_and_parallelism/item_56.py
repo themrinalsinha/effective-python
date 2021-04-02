@@ -128,10 +128,13 @@ print(columns)
 
 """
 Things to Remember
+
 ✦ A program often grows to require multiple concurrent lines of exe-
   cution as its scope and complexity increases.
+
 ✦ The most common types of concurrency coordination are fan-out
   (generating new units of concurrency) and fan-in (waiting for exist-
   ing units of concurrency to complete).
+
 ✦ Python has many different ways of achieving fan-out and fan-in.
 """
